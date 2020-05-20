@@ -1,0 +1,279 @@
+unit untFormPrincipal;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, System.Threading
+
+  //LIVRARIAS DO LEITOR
+  ,ZXing.BarcodeFormat, ZXing.ReadResult, ZXing.ScanManager, FMX.TabControl,
+  FMX.StdCtrls, FMX.Controls.Presentation, FMX.Objects, FMX.Media,
+  FMX.ListView.Types, FMX.ListView.Appearances, FMX.ListView.Adapters.Base,
+  FMX.ListView,
+
+  //USES ANDROID
+  UI.Toast, FMX.ListBox, FMX.Layouts, FMX.Edit, Data.DBXDataSnap,
+  Data.DBXCommon, IPPeerClient, Data.DB, Datasnap.DBClient, Datasnap.DSConnect,
+  Data.SqlExpr, System.Rtti, System.Bindings.Outputs, Fmx.Bind.Editors,
+  Data.Bind.EngExt, Fmx.Bind.DBEngExt, Data.Bind.Components, Data.Bind.DBScope
+
+  ;
+
+type
+  TFormPrincipal = class(TForm)
+    tcPrincipal: TTabControl;
+    tbConfig: TTabItem;
+    tbRegistros: TTabItem;
+    tbLeitor: TTabItem;
+    ToolBar1: TToolBar;
+    lblRegistros: TLabel;
+    ToolBar2: TToolBar;
+    lblResultado: TLabel;
+    ToolBar3: TToolBar;
+    lblConfiguracoes: TLabel;
+    btnCamera: TSpeedButton;
+    CameraComponent: TCameraComponent;
+    imgCamera: TImage;
+    lvUltimosCodigos: TListView;
+    btnConfig: TSpeedButton;
+    btnVoltar: TSpeedButton;
+    ListBox1: TListBox;
+    ListBoxItem1: TListBoxItem;
+    ListBoxItem2: TListBoxItem;
+    ListBoxGroupHeader1: TListBoxGroupHeader;
+    ListBoxGroupHeader2: TListBoxGroupHeader;
+    edtIP: TEdit;
+    edtPorta: TEdit;
+    btnConfigVoltar: TSpeedButton;
+    btnSalvaConfig: TSpeedButton;
+    conexao: TSQLConnection;
+    provedor: TDSProviderConnection;
+    tabela: TClientDataSet;
+    btnSair: TSpeedButton;
+    BindSourceDB1: TBindSourceDB;
+    BindingsList1: TBindingsList;
+    tabelaBARCODE: TWideStringField;
+    btnRefresh: TSpeedButton;
+    LinkListControlToField1: TLinkListControlToField;
+    procedure InserindoNoBanco;
+    procedure btnCameraClick(Sender: TObject);
+    procedure CameraComponentSampleBufferReady(Sender: TObject;
+      const ATime: TMediaTime);
+    procedure FormCreate(Sender: TObject);
+    procedure btnConfigClick(Sender: TObject);
+    procedure FormKeyUp(Sender: TObject; var Key: Word; var KeyChar: Char;
+      Shift: TShiftState);
+    procedure btnVoltarClick(Sender: TObject);
+    procedure btnSalvaConfigClick(Sender: TObject);
+    procedure edtIPCanFocus(Sender: TObject; var ACanFocus: Boolean);
+    procedure edtPortaCanFocus(Sender: TObject; var ACanFocus: Boolean);
+    procedure btnConfigVoltarClick(Sender: TObject);
+    procedure btnSairClick(Sender: TObject);
+    procedure btnRefreshClick(Sender: TObject);
+  private
+    FScanManager : TScanManager;
+    IsEscaneando: Boolean;
+    scanBitmap: TBitmap;
+    Frame: Integer;
+    ReadResult: TReadResult;
+    procedure IniciaLeitura;
+  public
+    { Public declarations }
+  end;
+
+var
+  FormPrincipal: TFormPrincipal;
+  CameraSettings : Boolean;
+  CameraEmFoco : Boolean;
+
+implementation
+
+{$R *.fmx}
+
+procedure TFormPrincipal.btnCameraClick(Sender: TObject);
+  begin
+    CameraEmFoco := true;
+
+    try
+      conexao.Connected := true;
+      provedor.Connected := true;
+      tabela.Active := true;
+    except
+      ShowMessage('Erro ao Se Conectar!');
+    end;
+
+    if CameraSettings = false then
+      begin
+        CameraComponent.Quality := TVideoCaptureQuality.MediumQuality;
+        CameraComponent.FocusMode := TFocusMode.ContinuousAutoFocus;
+        CameraComponent.Kind := TCameraKind.BackCamera;
+        CameraComponent.Active := true;
+        CameraSettings := true;
+      end;
+
+    tcPrincipal.Next();
+  end;
+
+procedure TFormPrincipal.btnConfigVoltarClick(Sender: TObject);
+  begin
+    tcPrincipal.Next();
+  end;
+
+procedure TFormPrincipal.btnRefreshClick(Sender: TObject);
+  begin
+    try
+      conexao.Connected := true;
+      tabela.Active := true;
+      tabela.Open();
+      tabela.Insert;
+      //tabelaBARCODE.AsString := 'Código';
+      tabela.FieldByName('BARCODE').AsString := 'Codigo';
+      tabela.Post;
+      tabela.ApplyUpdates(0);
+    except
+      ShowMessage('Error');
+    end;
+  end;
+
+procedure TFormPrincipal.btnConfigClick(Sender: TObject);
+  begin
+    tcPrincipal.Previous();
+  end;
+
+procedure TFormPrincipal.btnSairClick(Sender: TObject);
+  begin
+    Close();
+  end;
+
+procedure TFormPrincipal.btnSalvaConfigClick(Sender: TObject);
+  begin
+    conexao.Params.Values['Port'] := edtPorta.Text;
+    conexao.Params.Values['HostName'] := edtIP.Text;
+
+    {$IFDEF ANDROID}
+      Toast('Informações Alteradas e Salvas');
+    {$ENDIF ANDROID}
+  end;
+
+procedure TFormPrincipal.btnVoltarClick(Sender: TObject);
+  begin
+    tcPrincipal.Previous();
+    CameraEmFoco := false;
+  end;
+
+procedure TFormPrincipal.CameraComponentSampleBufferReady(Sender: TObject;
+  const ATime: TMediaTime);
+  begin
+    if CameraEmFoco = true then
+      begin
+        TThread.Synchronize(TThread.CurrentThread, IniciaLeitura);
+      end;
+  end;
+
+procedure TFormPrincipal.edtIPCanFocus(Sender: TObject; var ACanFocus: Boolean);
+  begin
+    btnSalvaConfig.Enabled := true;
+  end;
+
+procedure TFormPrincipal.edtPortaCanFocus(Sender: TObject;
+  var ACanFocus: Boolean);
+  begin
+    btnSalvaConfig.Enabled := true;
+  end;
+
+procedure TFormPrincipal.FormCreate(Sender: TObject);
+  begin
+    FScanManager := TScanManager.Create(TBarcodeFormat.Auto, nil);
+    tcPrincipal.ActiveTab := tbRegistros;
+
+    CameraSettings := false;
+    CameraEmFoco := false;
+
+    edtIP.Text := '192.168.0.108';
+    edtPorta.Text := '211';
+
+    conexao.Params.Values['Port'] := edtPorta.Text;
+    conexao.Params.Values['HostName'] := edtIP.Text;
+  end;
+
+procedure TFormPrincipal.FormKeyUp(Sender: TObject; var Key: Word;
+  var KeyChar: Char; Shift: TShiftState);
+  begin
+    if Key = vkHardwareBack then
+      begin
+        if tcPrincipal.ActiveTab = tbLeitor then
+          begin
+            tcPrincipal.Previous();
+            CameraEmFoco := false;
+          end;
+          Key := 0;
+      end;
+  end;
+
+procedure TFormPrincipal.IniciaLeitura;
+  begin
+    CameraComponent.SampleBufferToBitmap(imgCamera.Bitmap, True);
+
+    if (IsEscaneando) then begin exit; end;
+
+    { This code will take every 4 frame. }
+    inc(Frame); if (Frame mod 4 <> 0) then begin exit; end;
+
+    scanBitmap := TBitmap.Create();
+    scanBitmap.Assign(imgCamera.Bitmap);
+    ReadResult := nil;
+
+        TTask.Run(procedure
+          begin
+            try IsEscaneando := True;
+              try ReadResult := FScanManager.Scan(scanBitmap);
+                except on E:  Exception do
+                  begin TThread.Synchronize(nil,
+                    procedure
+                      begin { label1.Text := E.Message; }
+                      end); exit;
+                  end;
+              end;
+
+              TThread.Synchronize(nil,
+                procedure
+                  begin
+                    if (ReadResult <> nil) then
+                      begin
+                        InserindoNoBanco;
+                      end;
+                  end);
+
+            finally
+              ReadResult.Free;
+              scanBitmap.Free;
+              IsEscaneando := false;
+            end;
+         end);
+  end;
+
+procedure TFormPrincipal.InserindoNoBanco;
+  begin
+    try
+      conexao.Connected := true;
+      tabela.Active := true;
+      tabela.Open();
+      tabela.Insert;
+      tabela.FieldByName('BARCODE').AsString := ReadResult.text;
+      lvUltimosCodigos.Items.Add.Detail := FormatDateTime('dd/mm/yyyy',Now);
+      tabela.Post;
+      tabela.ApplyUpdates(0);
+      {$IFDEF ANDROID}
+        Toast('Registro Inserido com Sucesso!');
+      {$ENDIF ANDROID}
+      CameraEmFoco := false;
+      tcPrincipal.Previous();
+    except
+      {$IFDEF ANDROID}
+        Toast('Erro ao Inserir Registro no Banco');
+      {$ENDIF ANDROID}
+    end;
+  end;
+
+end.

@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+  <Transactions>
+    <Transaction>2018/06/22 10:28:02.251,=D:\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2018/06/22 10:29:05.260,D:\Documents\Embarcadero\Studio\Projects\[PROJETO] - Datasnap\uPrincipal.pas=D:\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2018/06/22 10:29:05.260,D:\Documents\Embarcadero\Studio\Projects\[PROJETO] - Datasnap\uPrincipal.fmx=D:\Documents\Embarcadero\Studio\Projects\Unit1.fmx</Transaction>
+    <Transaction>2018/06/22 10:29:14.135,D:\Documents\Embarcadero\Studio\Projects\[PROJETO] - Datasnap\Servidor\Datasnap.dproj=D:\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>2018/06/22 10:29:54.135,=D:\Documents\Embarcadero\Studio\Projects\[PROJETO] - Datasnap\Servidor\Unit2.pas</Transaction>
+    <Transaction>2018/06/22 10:30:05.585,=D:\Documents\Embarcadero\Studio\Projects\[PROJETO] - Datasnap\Servidor\Unit1.pas</Transaction>
+    <Transaction>2018/06/22 10:34:28.981,D:\Documents\Embarcadero\Studio\Projects\[PROJETO] - Datasnap\Cliente\uDM.dfm=D:\Documents\Embarcadero\Studio\Projects\[PROJETO] - Datasnap\Servidor\Unit1.dfm</Transaction>
+    <Transaction>2018/06/22 10:34:28.981,D:\Documents\Embarcadero\Studio\Projects\[PROJETO] - Datasnap\Cliente\uDM.pas=D:\Documents\Embarcadero\Studio\Projects\[PROJETO] - Datasnap\Servidor\Unit1.pas</Transaction>
+    <Transaction>2018/06/22 10:34:37.793,D:\Documents\Embarcadero\Studio\Projects\[PROJETO] - Datasnap\Cliente\uPrincipal.pas=D:\Documents\Embarcadero\Studio\Projects\[PROJETO] - Datasnap\uPrincipal.pas</Transaction>
+    <Transaction>2018/06/22 10:34:37.793,D:\Documents\Embarcadero\Studio\Projects\[PROJETO] - Datasnap\Cliente\uPrincipal.fmx=D:\Documents\Embarcadero\Studio\Projects\[PROJETO] - Datasnap\uPrincipal.fmx</Transaction>
+  </Transactions>
+  <ActiveMobileDevice>   <NoProfile iOSSimulator="iPhone5" Android="4A290DG9E"/>
+  </ActiveMobileDevice>
+</BorlandProject>

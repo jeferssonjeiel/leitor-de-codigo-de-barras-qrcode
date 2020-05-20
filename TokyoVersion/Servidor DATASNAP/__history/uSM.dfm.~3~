@@ -1,0 +1,61 @@
+object ServerMethods1: TServerMethods1
+  OldCreateOrder = False
+  Height = 256
+  Width = 359
+  object qryTABELA: TFDQuery
+    Connection = tfdcCONEXAO
+    UpdateOptions.AssignedValues = [uvAutoCommitUpdates]
+    SQL.Strings = (
+      'select * from postagens')
+    Left = 280
+    Top = 16
+    object qryTABELAID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'ID'
+    end
+    object qryTABELADATA_POSTAGEM: TDateField
+      FieldName = 'DATA_POSTAGEM'
+      Origin = 'DATA_POSTAGEM'
+    end
+    object qryTABELATITULO_POSTAGEM: TStringField
+      FieldName = 'TITULO_POSTAGEM'
+      Origin = 'TITULO_POSTAGEM'
+      Size = 50
+    end
+    object qryTABELANOME_AUTOR: TStringField
+      FieldName = 'NOME_AUTOR'
+      Origin = 'NOME_AUTOR'
+      Size = 50
+    end
+    object qryTABELACONTEUDO_POSTAGEM: TStringField
+      FieldName = 'CONTEUDO_POSTAGEM'
+      Origin = 'CONTEUDO_POSTAGEM'
+      Size = 1500
+    end
+  end
+  object dspPROVEDOR: TDataSetProvider
+    DataSet = qryTABELA
+    Options = [poAllowMultiRecordUpdates, poAutoRefresh, poUseQuoteChar]
+    Left = 280
+    Top = 80
+  end
+  object FDGUIxWaitCursor1: TFDGUIxWaitCursor
+    Provider = 'Forms'
+    Left = 56
+    Top = 192
+  end
+  object FDPhysFBDriverLink1: TFDPhysFBDriverLink
+    Left = 56
+    Top = 136
+  end
+  object tfdcCONEXAO: TFDConnection
+    Params.Strings = (
+      'User_Name=sysdba'
+      'Password=masterkey'
+      'Port=211'
+      'DriverID=FB')
+    LoginPrompt = False
+    Left = 56
+    Top = 16
+  end
+end

@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2019/09/21 07:17:47.000.217,=D:\Documentos\Embarcadero Projects\Tokyo X10.2.3\Unit1.pas</Transaction>
+    <Transaction>2019/09/21 07:19:04.000.950,D:\Documentos\Embarcadero Projects\Projetos de Teste\Leitor de QRCode e Codigo de Barras\TokyoVersion\untFormPrincipal.fmx=D:\Documentos\Embarcadero Projects\Tokyo X10.2.3\Unit1.fmx</Transaction>
+    <Transaction>2019/09/21 07:19:04.000.950,D:\Documentos\Embarcadero Projects\Projetos de Teste\Leitor de QRCode e Codigo de Barras\TokyoVersion\untFormPrincipal.pas=D:\Documentos\Embarcadero Projects\Tokyo X10.2.3\Unit1.pas</Transaction>
+    <Transaction>2019/09/21 07:19:16.000.302,D:\Documentos\Embarcadero Projects\Projetos de Teste\Leitor de QRCode e Codigo de Barras\TokyoVersion\LeitorTokyoVersion.dproj=D:\Documentos\Embarcadero Projects\Tokyo X10.2.3\Project1.dproj</Transaction>
+  </Transactions>
+	<ActiveMobileDevice>
+		<NoProfile iOSSimulator="iPhone5"/>
+	</ActiveMobileDevice>
+</BorlandProject>

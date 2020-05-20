@@ -1,0 +1,46 @@
+object ServerMethods1: TServerMethods1
+  OldCreateOrder = False
+  Height = 256
+  Width = 359
+  object qryTABELA: TFDQuery
+    Connection = tfdcCONEXAO
+    UpdateOptions.AssignedValues = [uvAutoCommitUpdates]
+    SQL.Strings = (
+      'select * from CODIGOSDEBARRAS')
+    Left = 280
+    Top = 16
+    object qryTABELABARCODE: TWideStringField
+      FieldName = 'BARCODE'
+      Origin = 'BARCODE'
+    end
+  end
+  object dspPROVEDOR: TDataSetProvider
+    DataSet = qryTABELA
+    Options = [poAllowMultiRecordUpdates, poAutoRefresh, poUseQuoteChar]
+    Left = 280
+    Top = 80
+  end
+  object FDGUIxWaitCursor1: TFDGUIxWaitCursor
+    Provider = 'Forms'
+    Left = 56
+    Top = 192
+  end
+  object FDPhysFBDriverLink1: TFDPhysFBDriverLink
+    Left = 56
+    Top = 136
+  end
+  object tfdcCONEXAO: TFDConnection
+    Params.Strings = (
+      'User_Name=sysdba'
+      'Password=masterkey'
+      'Port=211'
+      
+        'Database=D:\Documentos\Embarcadero Projects\Projetos de Teste\Le' +
+        'itor de QRCode e Codigo de Barras\TokyoVersion\Base\BASE.FDB'
+      'DriverID=FB')
+    Connected = True
+    LoginPrompt = False
+    Left = 56
+    Top = 16
+  end
+end

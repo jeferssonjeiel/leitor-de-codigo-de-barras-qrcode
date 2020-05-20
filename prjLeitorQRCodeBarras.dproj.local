@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+  <Transactions>
+    <Transaction>2019/09/17 00:51:00.214,=D:\Documentos\Embarcadero Projects\Projetos de Teste\Unit1.pas</Transaction>
+    <Transaction>2019/09/17 00:52:32.198,D:\Documentos\Embarcadero Projects\Projetos de Teste\Leitor de QRCode e Codigo de Barras\untForm1.pas=D:\Documentos\Embarcadero Projects\Projetos de Teste\Unit1.pas</Transaction>
+    <Transaction>2019/09/17 00:52:32.198,D:\Documentos\Embarcadero Projects\Projetos de Teste\Leitor de QRCode e Codigo de Barras\untForm1.fmx=D:\Documentos\Embarcadero Projects\Projetos de Teste\Unit1.fmx</Transaction>
+    <Transaction>2019/09/17 00:52:45.792,D:\Documentos\Embarcadero Projects\Projetos de Teste\Leitor de QRCode e Codigo de Barras\prjLeitorQRCodeBarras.dproj=D:\Documentos\Embarcadero Projects\Projetos de Teste\Project1.dproj</Transaction>
+  </Transactions>
+  <ActiveMobileDevice>   <NoProfile iOSSimulator="iPhone5" Android=""/>
+  </ActiveMobileDevice>
+</BorlandProject>

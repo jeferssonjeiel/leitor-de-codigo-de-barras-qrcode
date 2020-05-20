@@ -1,0 +1,62 @@
+object ServerMethods1: TServerMethods1
+  OldCreateOrder = False
+  Height = 256
+  Width = 359
+  object fdTabela: TFDQuery
+    Connection = ConexaoDataSnap
+    UpdateOptions.AssignedValues = [uvAutoCommitUpdates]
+    SQL.Strings = (
+      'select * from postagens')
+    Left = 296
+    Top = 16
+    object fdTabelaID: TIntegerField
+      FieldName = 'ID'
+      Origin = 'ID'
+    end
+    object fdTabelaDATA_POSTAGEM: TDateField
+      FieldName = 'DATA_POSTAGEM'
+      Origin = 'DATA_POSTAGEM'
+    end
+    object fdTabelaTITULO_POSTAGEM: TStringField
+      FieldName = 'TITULO_POSTAGEM'
+      Origin = 'TITULO_POSTAGEM'
+      Size = 50
+    end
+    object fdTabelaNOME_AUTOR: TStringField
+      FieldName = 'NOME_AUTOR'
+      Origin = 'NOME_AUTOR'
+      Size = 50
+    end
+    object fdTabelaCONTEUDO_POSTAGEM: TStringField
+      FieldName = 'CONTEUDO_POSTAGEM'
+      Origin = 'CONTEUDO_POSTAGEM'
+      Size = 1500
+    end
+  end
+  object dspTabela: TDataSetProvider
+    DataSet = fdTabela
+    Options = [poAllowMultiRecordUpdates, poAutoRefresh, poUseQuoteChar]
+    Left = 232
+    Top = 16
+  end
+  object FDGUIxWaitCursor1: TFDGUIxWaitCursor
+    Provider = 'Forms'
+    Left = 48
+    Top = 192
+  end
+  object FDPhysFBDriverLink1: TFDPhysFBDriverLink
+    Left = 48
+    Top = 136
+  end
+  object ConexaoDataSnap: TFDConnection
+    Params.Strings = (
+      'Database=C:\Base\FIREMONKEY.FDB'
+      'User_Name=sysdba'
+      'Password=masterkey'
+      'Port=211'
+      'DriverID=FB')
+    LoginPrompt = False
+    Left = 48
+    Top = 24
+  end
+end
